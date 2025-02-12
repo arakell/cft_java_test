@@ -1,6 +1,6 @@
 
 javac cft.java
-jar cmvf META-INF/MANIFEST.MF app.jar cft.class
+jar cmvf META-INF/MANIFEST.MF util.jar cft.class
 java -jar util.jar
 
 
