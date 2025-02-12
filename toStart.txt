@@ -1,2 +1,8 @@
+
 javac cft.java
-java cft
+jar cmvf META-INF/MANIFEST.MF app.jar cft.class
+java -jar util.jar
+
+
+примечание:
+MANIFEST.MF должен оканчиваться пустой строкой
