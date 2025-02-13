@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,9 +27,12 @@ public class cft {
         boolean isF;
         /* Путь для сохранения результатов */
         Path path = Paths.get("");
-        String pref = "";
         /* Массив файлов для чтения */
         List<Path> filePaths = new ArrayList<>();
+        /* Названия файлов */
+        String nameIntFile = "integers.txt";
+        String nameFloatFile = "floats.txt";
+        String nameStringFile = "strings.txt";
 
         /* Чтение опций */
         for(int i = 0; i < args.length; i++){
@@ -44,9 +48,21 @@ public class cft {
                         err("Не передан аргумент для параметра -o");
 
                     }
-
                     try{
 
+                        /*  TODO
+                         * Не нравится это решение, но я не знаю почему каталог не создается 
+                         * если первый символ \, хотя внутри конструктора есть нормализация
+                         */
+                        if (args[i].startsWith("/")) {
+                            args[i] = args[i].substring(1);
+                        }
+                        File theDir = new File(args[i]);
+                        if (!theDir.mkdirs()){
+
+                            err("Не удалось создать каталог, убедитесь в правильности названия, пример /test/case");
+
+                        };
                         path = Paths.get(args[i]);
 
                     } catch(Exception e){
@@ -67,7 +83,9 @@ public class cft {
                         err("Не передан аргумент для параметра -p");
 
                     }
-                    pref = args[i];
+                    nameIntFile = args[i] + nameIntFile;
+                    nameFloatFile = args[i] + nameFloatFile;
+                    nameStringFile = args[i] + nameStringFile;
 
                     break;
 
@@ -107,10 +125,10 @@ public class cft {
         Path resFloat = null;
         Path resString = null;
         try{
-
-            resInt = Paths.get(pref + "integers.txt");
-            resFloat = Paths.get(pref + "floats.txt");
-            resString = Paths.get(pref + "strings.txt");
+            System.out.println(path + "/" + nameIntFile);
+            resInt = Paths.get(path + "/" + nameIntFile);
+            resFloat = Paths.get(path+ "/" + nameFloatFile);
+            resString = Paths.get(path + "/" + nameStringFile);
             Files.createFile(resInt);
             Files.createFile(resFloat);
             Files.createFile(resString);
@@ -137,7 +155,6 @@ public class cft {
                 Integer integer;
                 String str;
                 while ((line = reader.readLine()) != null) {
-                    System.out.println(line);
                     try{
                         integer = Integer.parseInt(line);
                         writerInt.write(integer.toString());
