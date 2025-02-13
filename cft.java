@@ -1,8 +1,10 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,47 +103,68 @@ public class cft {
         }
 
         /* Создание 3 файлов */
-
+        Path resInt = null;
+        Path resFloat = null;
+        Path resString = null;
         try{
 
-            Path resInt = Paths.get( pref + "integers.txt");
-            Path resFloat = Paths.get(pref + "floats.txt");
-            Path resString = Paths.get(pref + "strings.txt");
+            resInt = Paths.get(pref + "integers.txt");
+            resFloat = Paths.get(pref + "floats.txt");
+            resString = Paths.get(pref + "strings.txt");
             Files.createFile(resInt);
             Files.createFile(resFloat);
             Files.createFile(resString);
 
         } catch(Exception e){
 
-            err("Не удалось создать файлы результатов. Вероятная причина ошибки: некорректный префикс");
+            err("Не удалось создать файлы результатов. Вероятные причина ошибки: некорректный префикс или файлы уже существуют");
 
         }
 
-
-/* 
-        BufferedReader reader;
-         Чтение информации из файлов 
+        /* Чтение информации из файлов */ 
         for(Path filePath : filePaths){
 
-            try {
+            try (
+                BufferedReader reader = Files.newBufferedReader(filePath);
+                BufferedWriter writerInt = Files.newBufferedWriter(resInt, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                BufferedWriter writerFloat = Files.newBufferedWriter(resFloat, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                BufferedWriter writerString = Files.newBufferedWriter(resString, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            ){
 
-                reader = Files.newBufferedReader(filePath);
-
+                
                 String line;
+                Float fl;
+                Integer integer;
+                String str;
                 while ((line = reader.readLine()) != null) {
-
                     System.out.println(line);
+                    try{
+                        integer = Integer.parseInt(line);
+                        writerInt.write(integer.toString());
+                        writerInt.newLine();
+                    } catch(Exception e1){
+                        try{
+                            fl = Float.parseFloat(line);
+                            writerFloat.write(fl.toString());
+                            writerFloat.newLine();
+                        } catch(Exception e2){
+                            str = line;
+                            writerString.write(str);
+                            writerString.newLine();
+                        }
+                    }
+
+
 
                 }
 
-            } catch (IOException e) {
+            } catch (Exception e) {
 
-                err("Файл не существует либо введено неверное имя");
+                err("Файл не существует, либо введено неверное имя");
 
             }
 
         }
-*/
 
     }
 }
