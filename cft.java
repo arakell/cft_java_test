@@ -1,5 +1,7 @@
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class cft {
 
@@ -17,6 +19,11 @@ public class cft {
         boolean isA;
         boolean isS;
         boolean isF;
+        /* Путь для сохранения результатов */
+        Path path = Paths.get("");
+        String pref;
+        /* Массив файлов для чтения */
+        List<Path> filePaths = new ArrayList<>();
 
         /* Чтение опций */
         for(int i = 0; i < args.length; i++){
@@ -24,19 +31,29 @@ public class cft {
             switch(args[i]){
 
                 case "-o":
+
                     isO = true;
                     i++;
                     if(i >= args.length){
                         err("Не передан аргумент для параметра -o");
                     }
-                    //TODO обернуть в exception если путь некорректный
-                    Path path = Paths.get(args[i]);
+
+                    try{
+                        path = Paths.get(args[i]);
+                    } catch(Error err){
+                        err("Указан некорректный путь для сохранения файлов");
+                    }
 
                     break;
+
                 case "-p":
                     isP = true;
-
-                    /* чтение префикса */
+                    
+                    i++;
+                    if(i >= args.length){
+                        err("Не передан аргумент для параметра -p");
+                    }
+                    pref = args[i];
 
                     break;
                 case "-a":
@@ -48,10 +65,21 @@ public class cft {
                 case "-f":
                     isF = true;
                     break;
+                default:
+                    try{
+                        filePaths.add(Paths.get(args[i]));
+                    } catch(Error err){
+                        err("Произошла ошибка при попытке считать имя файла, проверьте правильность введенных данных");
+                    }
+                    break;
 
             }
+        }
 
+        /* Чтение информации из файлов */
+        for(int i = 0; i < filePaths.size(); i++){
 
+            
 
         }
 
