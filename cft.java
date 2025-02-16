@@ -33,6 +33,19 @@ public class cft {
         String nameIntFile = "integers.txt";
         String nameFloatFile = "floats.txt";
         String nameStringFile = "strings.txt";
+        /* Количество записанных элементов */
+        int countInt = 0;
+        int countFloat = 0;
+        int countString = 0;
+
+        int minInt = 0;
+        int maxInt = 0;
+        int sumInt = 0;
+        float minFloat = 0;
+        float maxFloat = 0;
+        float sumFloat = 0;
+        int minString = 0;
+        int maxString = 0;
 
         /* Чтение опций */
         for(int i = 0; i < args.length; i++){
@@ -193,27 +206,102 @@ public class cft {
                         integer = Integer.parseInt(line);
                         writerInt.write(integer.toString());
                         writerInt.newLine();
+                        countInt++;
+
+                        if(countInt == 1){
+                            minInt = integer;
+                            maxInt = integer;
+                            sumInt = integer;
+                        }
+                        else{
+                            
+                            if(integer < minInt) 
+                                minInt = integer;
+
+                            if(integer > maxInt)
+                                maxInt = integer;
+
+                            sumInt += integer;
+
+                        }
+
+
                     } catch(Exception e1){
                         try{
                             fl = Float.parseFloat(line);
                             writerFloat.write(fl.toString());
                             writerFloat.newLine();
+                            countFloat++;
+
+                            if(countFloat == 1){
+                                minFloat = fl;
+                                maxFloat = fl;
+                                sumFloat = fl;
+                            }
+                            else{
+                                
+                                if(fl < minFloat) 
+                                    minFloat = fl;
+    
+                                if(fl > maxFloat)
+                                    maxFloat = fl;
+    
+                                sumFloat += fl;
+    
+                            }
+
                         } catch(Exception e2){
                             str = line;
                             writerString.write(str);
                             writerString.newLine();
+                            countString++;
+
+                            if(countInt == 1){
+                                minString = str.length();
+                                maxString = str.length();
+                            }
+                            else{
+                                
+                                if(str.length() < minString) 
+                                    minString = str.length();
+    
+                                if(str.length() > maxString)
+                                    maxString = str.length();
+
+                            }
                         }
                     }
-
-
-
                 }
-
             } catch (Exception e) {
 
                 err("Файл не существует, либо введено неверное имя");
 
             }
+
+        }
+
+        if(isS){
+
+            System.out.println("Целых чисел: " + countInt);
+            System.out.println("Вещественных чисел: " + countFloat);
+            System.out.println("Строк: " + countString + "\n");
+
+        }
+
+        if(isF){
+
+            System.out.println("Максимальное среди целых чисел: " + maxInt);
+            System.out.println("Минимальное среди целых чисел: " + minInt);
+            System.out.println("Сумма целых чисел: " + sumInt);
+            System.out.println("Среднее целых чисел: " + (float)sumInt/countInt + "\n");
+
+            System.out.println("Максимальное среди вещественных чисел: " + maxFloat);
+            System.out.println("Минимальное среди вещественных чисел: " + minFloat);
+            System.out.println("Сумма вещественных чисел: " + sumFloat);
+            System.out.println("Среднее вещественных чисел: " + (float)sumFloat/countFloat + "\n");
+
+            System.out.println("Длина самой длинной строки: " + maxString);
+            System.out.println("Длина самой короткой строки: " + minString + "\n");
 
         }
 
