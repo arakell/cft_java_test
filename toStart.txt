@@ -1,9 +1,0 @@
-
-javac cft.java
-jar cmvf META-INF/MANIFEST.MF util.jar cft.class
-java -jar util.jar
-
-примечание:
-MANIFEST.MF должен оканчиваться пустой строкой
-
-создан bat файл для быстрого создания jar архива, запуск .\build.bat
