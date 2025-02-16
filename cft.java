@@ -20,11 +20,11 @@ public class cft {
 
     public static void main(String[] args) {
 
-        boolean isO;
-        boolean isP;
-        boolean isA;
-        boolean isS;
-        boolean isF;
+        boolean isO = false;
+        boolean isP = false;
+        boolean isA = false;
+        boolean isS = false;
+        boolean isF = false;
         /* Путь для сохранения результатов */
         Path path = Paths.get("");
         /* Массив файлов для чтения */
@@ -58,7 +58,7 @@ public class cft {
                             args[i] = args[i].substring(1);
                         }
                         File theDir = new File(args[i]);
-                        if (!theDir.mkdirs()){
+                        if (!theDir.exists() && !theDir.mkdirs()){
 
                             err("Не удалось создать каталог, убедитесь в правильности названия, пример /test/case");
 
@@ -125,13 +125,47 @@ public class cft {
         Path resFloat = null;
         Path resString = null;
         try{
-            System.out.println(path + "/" + nameIntFile);
+
             resInt = Paths.get(path + "/" + nameIntFile);
-            resFloat = Paths.get(path+ "/" + nameFloatFile);
+            resFloat = Paths.get(path + "/" + nameFloatFile);
             resString = Paths.get(path + "/" + nameStringFile);
-            Files.createFile(resInt);
-            Files.createFile(resFloat);
-            Files.createFile(resString);
+
+            /* Если выбрана опция -a, но каких-то файлов нет - создаем их */
+            if(isA){
+
+                File f = new File (resInt.toString());
+                if(!f.exists()){
+                    Files.createFile(resInt);
+                }
+                f = new File (resFloat.toString());
+                if(!f.exists()){
+                    Files.createFile(resFloat);
+                }
+                f = new File (resString.toString());
+                if(!f.exists()){
+                    Files.createFile(resString);
+                }
+
+            } else{
+                
+                File f = new File (resInt.toString());
+                if(f.exists()){
+                    Files.delete(resInt);
+                }
+                f = new File (resFloat.toString());
+                if(f.exists()){
+                    Files.delete(resFloat);
+                }
+                f = new File (resString.toString());
+                if(f.exists()){
+                    Files.delete(resString);
+                }
+
+                Files.createFile(resInt);
+                Files.createFile(resFloat);
+                Files.createFile(resString);
+
+            }
 
         } catch(Exception e){
 
