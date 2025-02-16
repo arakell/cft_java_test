@@ -49,8 +49,6 @@ public class cft {
 
     public static void main(String[] args) {
 
-        boolean isO = false;
-        boolean isP = false;
         boolean isA = false;
         boolean isS = false;
         boolean isF = false;
@@ -82,7 +80,6 @@ public class cft {
 
                 case "-o":
 
-                    isO = true;
                     slash = "/";
                     i++;
                     if(i >= args.length){
@@ -117,8 +114,6 @@ public class cft {
                     break;
 
                 case "-p":
-
-                    isP = true;
                     
                     i++;
                     if(i >= args.length){
